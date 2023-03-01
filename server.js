@@ -1,3 +1,4 @@
+const functions = require("firebase-functions");
 const express = require("express");
 const path = require("path");
 require("dotenv").config();
@@ -10,6 +11,7 @@ app.use(cors());
 //This will create a middleware.
 //When you navigate to the root page, it would use the built react-app
 app.use(express.static(path.resolve(__dirname, "./client/build")));
+
 
 const transporter = require("./mailer");
 
@@ -27,7 +29,7 @@ app.post("/mail", (req, res) => {
     req.body.email !== "" &&
     req.body.phone !== "" &&
     req.body.message !== ""
-  ) {
+    ) {
     try {
       transporter.sendMail({
         to: "orejitax@gmail.com",
@@ -37,20 +39,20 @@ app.post("/mail", (req, res) => {
             <p>Nombre: ${req.body.name}</p>
             <p>Email: ${req.body.email}</p>
             <p>Teléfono: ${req.body.phone}</p>
-            <p>Asundo del mensaje: ${req.body.subject}</p>
             <p>Message: ${req.body.message}</p>
             `,
       });
     } catch (err) {
       console.log(err);
     }
-
+    
     res.send({ message: "Success" });
   } else {
     null;
   }
 });
 
+exports.mail = functions.https.onRequest(app);
 // console.log that your server is up and running
 
 app.listen(port, "0.0.0.0", () => console.log(`Listening on port ${port}`));
