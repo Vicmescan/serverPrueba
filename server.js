@@ -1,4 +1,4 @@
-const functions = require("firebase-functions");
+// const functions = require("firebase-functions");
 const express = require("express");
 const path = require("path");
 require("dotenv").config();
@@ -27,15 +27,14 @@ app.post("/mail", (req, res) => {
   if (
     req.body.name !== "" &&
     req.body.email !== "" &&
-    req.body.phone !== "" &&
     req.body.message !== ""
     ) {
     try {
       transporter.sendMail({
         to: "orejitax@gmail.com",
-        subject: `${req.body.name} ha escrito desde la web. Asunto: ${req.body.subject} `,
+        subject: `${req.body.name} ha escrito desde la web.`,
         html: `
-        <h4>Datos del autor/a/e que escribe el mensaje:</h4>
+        <h3>Datos del autor/a/e que escribe el mensaje:</h3>
             <p>Nombre: ${req.body.name}</p>
             <p>Email: ${req.body.email}</p>
             <p>Teléfono: ${req.body.phone}</p>
@@ -52,7 +51,7 @@ app.post("/mail", (req, res) => {
   }
 });
 
-exports.mail = functions.https.onRequest(app);
+// exports.mail = functions.https.onRequest(app);
 // console.log that your server is up and running
 
-app.listen(port, "0.0.0.0", () => console.log(`Listening on port ${port}`));
+app.listen(port, () => console.log(`Listening on port ${port}`));
